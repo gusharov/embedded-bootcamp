@@ -23,7 +23,6 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-#define ARR 60000
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -106,9 +105,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_SET);
 	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
 	  HAL_SPI_TransmitReceive(&hspi1, TX_Buffer, RX_Buffer, 3, 1000);
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
+
 	  data = (RX_Buffer[2]) | ((RX_Buffer[1] & 0b011)<< 8);
 	  //read from the potentiometer through SPI,
 	  //then use pwm on the motor !!!
