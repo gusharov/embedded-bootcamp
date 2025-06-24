@@ -107,7 +107,7 @@ int main(void)
   {
 	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
 	  HAL_SPI_TransmitReceive(&hspi1, TX_Buffer, RX_Buffer, 3, 1000);
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_SET);
 
 	  data = (RX_Buffer[2]) | ((RX_Buffer[1] & 0b011)<< 8);
 	  //read from the potentiometer through SPI,
