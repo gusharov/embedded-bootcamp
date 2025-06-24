@@ -19,9 +19,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-
+#define ARR 60000
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -87,17 +89,36 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
-  /* USER CODE BEGIN 2 */
+  MX_SPI1_Init();
+  MX_TIM1_Init();
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 
+  /* USER CODE BEGIN 2 */
+  uint8_t TX_Buffer[3] = {1, (1<<7),0} ;
+  //data to send
+  uint8_t RX_Buffer[3] = {0} ;
+  uint16_t data = 0;
+  float pwm = 0;
+  //data to receive
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_SET);
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
+	  HAL_SPI_TransmitReceive(&hspi1, TX_Buffer, RX_Buffer, 3, 1000);
+	  data = (RX_Buffer[2]) | ((RX_Buffer[1] & 0b011)<< 8);
+	  //read from the potentiometer through SPI,
+	  //then use pwm on the motor !!!
+	  pwm = ((float)data)/1023 * 3000 + 3000;
+	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, (int)pwm);
 
-    /* USER CODE BEGIN 3 */
+
+	  HAL_Delay(10);
+    /* USER CODE END WHILE */
+	      /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
