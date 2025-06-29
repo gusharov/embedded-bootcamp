@@ -23,6 +23,7 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -90,8 +91,6 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI1_Init();
   MX_TIM1_Init();
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-
   /* USER CODE BEGIN 2 */
   uint8_t TX_Buffer[3] = {1, (1<<7),0} ;
   //data to send
@@ -118,7 +117,8 @@ int main(void)
 
 	  HAL_Delay(10);
     /* USER CODE END WHILE */
-	      /* USER CODE BEGIN 3 */
+
+    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
