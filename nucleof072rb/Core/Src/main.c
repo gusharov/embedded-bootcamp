@@ -112,7 +112,7 @@ int main(void)
 	  data = (RX_Buffer[2]) | ((RX_Buffer[1] & 0b011)<< 8);
 	  //read from the potentiometer through SPI,
 	  //then use pwm on the motor !!!
-	  pwm = ((float)data)/1023 * 3000 + 3000;
+	  pwm = ((float)data)/1023 * 3200 + 3200;
 	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, (int)pwm);
 
 
